@@ -90,7 +90,9 @@ exports.updatePost = async (req, res) => {
         // Handle Cloudinary image replacement
         let newImage = post.image;
         if (req.file) {
-            newImage = req.file.path; // Cloudinary URL
+            // 🔹 Upload new image to Cloudinary
+            const uploadResult = await cloudinary.uploader.upload(req.file.path);
+            newImage = uploadResult.secure_url; // Get Cloudinary URL
         }
 
         post.title = title;
